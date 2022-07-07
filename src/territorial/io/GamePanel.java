@@ -10,4 +10,10 @@ public class GamePanel extends JPanel{
 	final int END = 2;
 	Timer frameDraw;
 	int currentstate;
+	Tile tile = new Tile(0,0);
+	
+	void drawGameState() {
+	//	tile.draw();
+	}
+
 }
