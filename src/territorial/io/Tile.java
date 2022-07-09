@@ -6,14 +6,16 @@ public class Tile {
 int x;
 int y;
 
-	public Tile(int x, int y /* insert nation variable */) {
+
+	public Tile(int x, int y) {
 		this.x = x;
 		this.y = y;
 		
 	}
-	void draw(Graphics g) {
+	 void draw(Graphics g) {
 		g.setColor(Color.BLUE);
 		g.fillRect(x, y, 5, 5);
+	
 	}
 	
 }
