@@ -17,7 +17,7 @@ public class WorldManager {
 	}
 
 	void update() {
-		
+
 	}
 
 	void draw(Graphics g) {
