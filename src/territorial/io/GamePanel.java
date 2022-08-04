@@ -48,8 +48,10 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 	}
 
 	void drawGameState(Graphics g) {
-		g.setColor(new Color(254, 200, 0));
+		g.setColor(new Color(130, 138, 58));
 		g.fillRect(0, 0, Territorial_Runner.WIDTH, Territorial_Runner.HEIGHT);
+	
+	
 	}
 
 	void drawEndState(Graphics g) {
@@ -111,11 +113,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 		}
 	}
 
-	@Override
-	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub
 
-	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
@@ -151,6 +149,12 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 	public void mouseExited(MouseEvent e) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public void keyTyped(KeyEvent arg0) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
