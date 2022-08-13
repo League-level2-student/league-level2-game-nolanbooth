@@ -19,7 +19,7 @@ public class Nation {
 	void attack(Nation target) {
 
 	}
-
+	
 	void update() {
 
 	}

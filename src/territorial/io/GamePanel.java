@@ -23,7 +23,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 	Font titleFont;
 	Font regFont;
 	Font massFont;
-	Tile tile = new Tile(50, 50);
+	WorldManager manager = new WorldManager();
 
 	public GamePanel() {
 		frameDraw = new Timer(1000 / 60, this);
@@ -50,11 +50,17 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 	void drawGameState(Graphics g) {
 		g.setColor(new Color(130, 138, 58));
 		g.fillRect(0, 0, Territorial_Runner.WIDTH, Territorial_Runner.HEIGHT);
-	
-	
+
+		manager.draw(g);
+
 	}
 
 	void drawEndState(Graphics g) {
+		g.setColor(new Color(0, 0, 10));
+		g.fillRect(0, 0, Territorial_Runner.WIDTH, Territorial_Runner.HEIGHT);
+		g.setFont(titleFont);
+		g.setColor(new Color(110, 7, 7));
+		g.drawString("GAME OVER", Territorial_Runner.WIDTH / 3, 200);
 
 	}
 
@@ -113,8 +119,6 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 		}
 	}
 
-
-
 	@Override
 	public void keyReleased(KeyEvent e) {
 		// TODO Auto-generated method stub
@@ -154,7 +158,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 	@Override
 	public void keyTyped(KeyEvent arg0) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }
