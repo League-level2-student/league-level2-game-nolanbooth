@@ -8,16 +8,16 @@ public class Nation {
 	int y;
 	int troops;
 	Color color;
+	int numberOfPixels;
 
-	public Nation(int x, int y, int troops, Color color) {
-		this.y = y;
-		this.x = x;
+	public Nation(int troops, Color color) {
 		this.troops = troops;
 		this.color = color;
+		
 	}
 
 	void attack(Nation target) {
-
+		
 	}
 	
 	void update() {
