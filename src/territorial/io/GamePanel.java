@@ -24,8 +24,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 	Font regFont;
 	Font massFont;
 	WorldManager manager = new WorldManager();
-	Nation none;
-	Nation player;
+
 
 	public GamePanel() {
 		frameDraw = new Timer(1000 / 60, this);
@@ -120,7 +119,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 			}
 		}if (cars.getKeyCode() == KeyEvent.VK_SPACE) {
 			System.out.println("space button detected - attack");
-			player.attack(none);
+			manager.player.attack(manager.none);
 		}
 	}
 

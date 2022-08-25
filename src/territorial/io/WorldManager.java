@@ -6,8 +6,8 @@ import java.util.Random;
 
 public class WorldManager {
 	// NOTE! countries can be every color except GRAY AND BLUE.
-	Nation none;
-	Nation player;
+	static Nation none;
+	static Nation player;
 
 	static Tile[][] tileArray = new Tile[250][200];
 	Color[] colorSelect = { Color.BLACK,  Color.CYAN, Color.DARK_GRAY, Color.GREEN, Color.LIGHT_GRAY,
@@ -27,10 +27,14 @@ public class WorldManager {
 	
 		for (int i = 0; i < tileArray.length; i++) {
 			for (int k = 0; k < tileArray[i].length; k++) {
-				tileArray[i][k] = new Tile(i * 4, k * 4, none);
+				tileArray[i][k] = new Tile(i, k, none);
 			}
 		}
-
+		for (int i = 0; i < tileArray.length; i++) {
+			for(int e = 0; e < tileArray[i].length; e++) {
+				tileArray[i][e].calculateNeybers();
+			}
+		}
 	}
 
 	void update() {
