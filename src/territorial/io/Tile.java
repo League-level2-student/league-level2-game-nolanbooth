@@ -20,7 +20,7 @@ public class Tile {
 	}
 
 	void draw(Graphics g) {
-		g.setColor(Color.GRAY);
+		g.setColor(nation.color);
 		g.fillRect(x*4, y*4, 4, 4);
 		g.setColor(Color.BLUE);
 		g.drawRect(x*4, y*4, 4, 4);
@@ -42,7 +42,7 @@ public class Tile {
 		int i = 0;
 		for(Tile t : count) {
 			neybers[i++] = t;
-		//System.out.println(neybers.length);
+
 		}
 	}
 
