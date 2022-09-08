@@ -7,6 +7,8 @@ import java.util.ArrayList;
 public class Tile {
 	int x;
 	int y;
+	boolean isBorder = true;
+	static Tile[] emptyNeybers = new Tile[0];
 	
 	Nation nation;
 	Tile[] neybers = {};
@@ -44,6 +46,27 @@ public class Tile {
 			neybers[i++] = t;
 
 		}
+	}public Tile[] getNeybers(){
+		
+		if(isBorder == false) {
+			return emptyNeybers;
+			
+		}else {
+			return neybers;
+		}
+	}public void checkNeybers() {
+		boolean isABorder = false;
+		for(Tile t : neybers) {
+			if(t.nation.nationNum != nation.nationNum) {
+			isABorder = true;
+			t.isBorder = true;
+			}
+		}
+		isBorder = isABorder;
+	}public void setNation(Nation nation) {
+		this.nation = nation;
+		checkNeybers();
+		
 	}
 
 }
