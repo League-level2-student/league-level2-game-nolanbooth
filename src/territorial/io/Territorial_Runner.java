@@ -3,8 +3,8 @@ package territorial.io;
 import javax.swing.JFrame;
 
 public class Territorial_Runner {
-	JFrame frame;
-	GamePanel gamepanel;
+	public static JFrame frame;
+	public static GamePanel gamepanel;
 	public static final int WIDTH = 1000;
 	public static final int HEIGHT = 800;
 

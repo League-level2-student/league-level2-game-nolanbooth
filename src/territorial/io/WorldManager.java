@@ -51,6 +51,9 @@ public class WorldManager {
 			}
 
 		}
+	Territorial_Runner.frame.setTitle("Player Troops = " + player.troops + "  None troops = " + none.troops);
+	
+	
 	}
 
 	public static ArrayList<Tile> getNationTiles(Nation nation) {

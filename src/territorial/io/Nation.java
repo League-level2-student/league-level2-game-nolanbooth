@@ -11,6 +11,7 @@ public class Nation {
 	Color color;
 	int numberOfPixels;
 	int nationNum;
+	int troopsPerPixel;
 
 	public Nation(int troops, Color color, int nationNum) {
 		this.troops = troops;
@@ -24,13 +25,14 @@ public class Nation {
 		for (Tile t : ownTiles) {
 			
 			for (Tile tile : t.getNeybers()) {
-				System.out.println("Neybers have been got");
+				//System.out.println("Neybers have been got");
 
 				if (tile.nation.nationNum == target.nationNum) {
 					tile.setNation(this);
-					System.out.println("if statement reached!");
+					//System.out.println("if statement reached!");
 					
 					// changing ownership of tiles and subtracting troops from both sides
+					//make some sort of thing that subtracts the troops per pixel from the nations
 				}
 			}
 
