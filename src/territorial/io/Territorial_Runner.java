@@ -24,6 +24,7 @@ public class Territorial_Runner {
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.addKeyListener(gamepanel);
+		GamePanel.startTimer();
 	}
 
 }

@@ -2,10 +2,12 @@ package territorial.io;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class WorldManager {
+public class WorldManager implements ActionListener {
 	// NOTE! countries can be every color except GRAY AND BLUE.
 	static Nation none;
 	static Nation player;
@@ -66,6 +68,13 @@ public class WorldManager {
 			}
 		}
 		return tiles;
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		player.troops = (int) (player.troops * 1.05);
+	
 	}
 
 }

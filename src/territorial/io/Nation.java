@@ -22,23 +22,42 @@ public class Nation {
 	void attack(Nation target) {
 		ArrayList<Tile> ownTiles = WorldManager.getNationTiles(this);
 		System.out.println(ownTiles.size());
+		numberOfPixels = WorldManager.getNationTiles(this).size();
+		
+		target.numberOfPixels = WorldManager.getNationTiles(target).size();
 		for (Tile t : ownTiles) {
 			
 			for (Tile tile : t.getNeybers()) {
 				//System.out.println("Neybers have been got");
 
 				if (tile.nation.nationNum == target.nationNum) {
+					if(troops <= 0) {
+						System.out.println("No troops left");
+						if(target.numberOfPixels > 0) {
+						target.troopsPerPixel = target.troops / target.numberOfPixels;
+						}
+						if(numberOfPixels > 0) {
+						troopsPerPixel = troops / numberOfPixels;
+						}
+						return;
+					}else{
+						troops = troops - target.troopsPerPixel;
+						target.troops = target.troops - target.troopsPerPixel;
+					//System.out.println("Troops subtracted");
+					}
 					tile.setNation(this);
-					//System.out.println("if statement reached!");
-					
-					// changing ownership of tiles and subtracting troops from both sides
-					//make some sort of thing that subtracts the troops per pixel from the nations
 				}
 			}
 
 		}
-
+		if(target.numberOfPixels > 0) {
+		target.troopsPerPixel = target.troops / target.numberOfPixels;
+		}		
+		if(numberOfPixels > 0) {
+		troopsPerPixel = troops / numberOfPixels;
+		}
 	}
+	
 
 	void update() {
 
