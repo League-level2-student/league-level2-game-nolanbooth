@@ -12,6 +12,7 @@ public class Nation {
 	int numberOfPixels;
 	int nationNum;
 	int troopsPerPixel;
+	
 
 	public Nation(int troops, Color color, int nationNum) {
 		this.troops = troops;
@@ -50,12 +51,14 @@ public class Nation {
 			}
 
 		}
+		numberOfPixels = WorldManager.getNationTiles(this).size();
 		if(target.numberOfPixels > 0) {
 		target.troopsPerPixel = target.troops / target.numberOfPixels;
 		}		
 		if(numberOfPixels > 0) {
 		troopsPerPixel = troops / numberOfPixels;
 		}
+		
 	}
 	
 

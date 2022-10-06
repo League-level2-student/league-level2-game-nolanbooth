@@ -11,6 +11,8 @@ public class WorldManager implements ActionListener {
 	// NOTE! countries can be every color except GRAY AND BLUE.
 	static Nation none;
 	static Nation player;
+	static Nation test;
+	static int lazyTimer = 0;
 
 	static Tile[][] tileArray = new Tile[250][200];
 	Color[] colorSelect = { Color.BLACK, Color.CYAN, Color.DARK_GRAY, Color.GREEN, Color.LIGHT_GRAY, Color.MAGENTA,
@@ -20,6 +22,7 @@ public class WorldManager implements ActionListener {
 
 	WorldManager() {
 		player = new Nation(100, colorSelect[7], 1);
+		test = new Nation(100, colorSelect[8], 2);
 
 		none = new Nation(0, Color.GRAY, 0);
 		none.numberOfPixels = 50000;
@@ -39,7 +42,7 @@ public class WorldManager implements ActionListener {
 			}
 		}
 		tileArray[100][100].nation = player;
-
+		tileArray[50][50].nation = test;
 	}
 
 	void update() {
@@ -53,9 +56,9 @@ public class WorldManager implements ActionListener {
 			}
 
 		}
-	Territorial_Runner.frame.setTitle("Player Troops = " + player.troops + "  None troops = " + none.troops);
-	
-	
+		Territorial_Runner.frame.setTitle("Player Troops = " + player.troops + " AI troops = " + test.troops
+				+ " pixels " + player.numberOfPixels);
+
 	}
 
 	public static ArrayList<Tile> getNationTiles(Nation nation) {
@@ -73,8 +76,29 @@ public class WorldManager implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		player.troops = (int) (player.troops * 1.05);
-	
+		test.troops += test.numberOfPixels;
+		if (lazyTimer <= 2) {
+			lazyTimer++;
+		} else {
+			test.attack(none);
+			lazyTimer = 0;
+		}
+		if (test.troops < test.numberOfPixels * 150) {
+			test.troops = (int) (test.troops * 1.1);
+		} else {
+			test.troops = test.numberOfPixels * 150;
+		}
+
+		// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
+
+		player.troops += player.numberOfPixels;
+
+		if (player.troops < player.numberOfPixels * 150) {
+			player.troops = (int) (player.troops * 1.1);
+		} else {
+			player.troops = player.numberOfPixels * 150;
+		}
+
 	}
 
 }

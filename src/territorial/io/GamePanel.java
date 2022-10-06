@@ -25,7 +25,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 	Font massFont;
 	static WorldManager manager = new WorldManager();
 	static Timer updateTroops;
-
+//	static Timer aiAttack;
+	
 	public GamePanel() {
 		frameDraw = new Timer(1000 / 60, this);
 		frameDraw.start();
@@ -78,6 +79,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 	}static void startTimer(){
 		updateTroops = new Timer(1000, manager);
 		updateTroops.start();
+		
+		//aiAttack = new Timer(2000, manager);
+		//aiAttack.start();
 		
 	}
 
