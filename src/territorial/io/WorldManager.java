@@ -13,7 +13,7 @@ public class WorldManager implements ActionListener {
 	static Nation player;
 	static Nation test;
 	static int lazyTimer = 0;
-
+	static int timer = 0;
 	static Tile[][] tileArray = new Tile[250][200];
 	Color[] colorSelect = { Color.BLACK, Color.CYAN, Color.DARK_GRAY, Color.GREEN, Color.LIGHT_GRAY, Color.MAGENTA,
 			Color.ORANGE, Color.PINK, Color.RED, Color.YELLOW };
@@ -45,9 +45,9 @@ public class WorldManager implements ActionListener {
 		tileArray[50][50].nation = test;
 	}
 
-	void update() {
+	//void update() {
 
-	}
+	//}
 
 	void draw(Graphics g) {
 		for (Tile[] t : tileArray) {
@@ -56,8 +56,7 @@ public class WorldManager implements ActionListener {
 			}
 
 		}
-		Territorial_Runner.frame.setTitle("Player Troops = " + player.troops + " AI troops = " + test.troops
-				+ " pixels " + player.numberOfPixels);
+		//Territorial_Runner.frame.setTitle("Target = " + target);
 
 	}
 
@@ -76,11 +75,15 @@ public class WorldManager implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
+		if(timer <= 1000) {
+		timer++;
+		
+		}else {
 		test.troops += test.numberOfPixels;
 		if (lazyTimer <= 2) {
 			lazyTimer++;
 		} else {
-			test.attack(none);
+			test.attack(player);
 			lazyTimer = 0;
 		}
 		if (test.troops < test.numberOfPixels * 150) {
@@ -98,7 +101,7 @@ public class WorldManager implements ActionListener {
 		} else {
 			player.troops = player.numberOfPixels * 150;
 		}
-
+timer = 0;
 	}
-
+	}
 }

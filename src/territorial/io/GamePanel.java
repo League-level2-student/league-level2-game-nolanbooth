@@ -1,5 +1,6 @@
 package territorial.io;
 
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -47,12 +48,13 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 		g.setFont(regFont);
 		g.setColor(new Color(255, 255, 255));
 		g.drawString("P R E S S   E N T E R   TO   S T A R T", 300, 500);
+		g.drawString("P R E S S  I   F O R   I N S T R U C T I O N S", 270, 600);
 	}
 
 	void drawGameState(Graphics g) {
 		g.setColor(new Color(130, 138, 58));
 		g.fillRect(0, 0, Territorial_Runner.WIDTH, Territorial_Runner.HEIGHT);
-
+		startTimer();
 		manager.draw(g);
 
 	}
@@ -77,7 +79,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 	void updateEndState() {
 
 	}static void startTimer(){
-		updateTroops = new Timer(1000, manager);
+		updateTroops = new Timer(1000/60, manager);
 		updateTroops.start();
 		
 		//aiAttack = new Timer(2000, manager);
@@ -128,6 +130,11 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 		}if (cars.getKeyCode() == KeyEvent.VK_SPACE) {
 		//	System.out.println("space button detected - attack");
 			manager.player.attack(manager.none);
+		}if(cars.getKeyCode() == KeyEvent.VK_I) {
+			JOptionPane.showMessageDialog(null, "Press SPACE to Attack. Press T to change target nation");
+		}if(cars.getKeyCode() == KeyEvent.VK_T) {
+			String oldTech = JOptionPane.showInputDialog("Which Nation would you like to attack?");
+		
 		}
 	}
 
