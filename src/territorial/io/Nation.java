@@ -55,6 +55,16 @@ public class Nation {
 		troopsPerPixel = troops / numberOfPixels;
 		}
 		
+	}static void updateTroops(Nation nation){
+		if (nation.troops < nation.numberOfPixels * 150) {
+			nation.troops = (int) (nation.troops * 1.1);
+		} else {
+			nation.troops = nation.numberOfPixels * 150;
+		}
+		
+		if(nation.troops > nation.numberOfPixels * 150) {
+			nation.troops = nation.numberOfPixels * 150;
+		}
 	}
 	
 

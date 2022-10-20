@@ -11,7 +11,8 @@ public class WorldManager implements ActionListener {
 	// NOTE! countries can be every color except GRAY AND BLUE.
 	static Nation none;
 	static Nation player;
-	static Nation test;
+	static Nation red;
+	static Nation cyan;
 	static int lazyTimer = 0;
 	static int timer = 0;
 	static Tile[][] tileArray = new Tile[250][200];
@@ -22,8 +23,9 @@ public class WorldManager implements ActionListener {
 
 	WorldManager() {
 		player = new Nation(10, colorSelect[7], 1);
-		test = new Nation(10, colorSelect[8], 2);
-
+		red = new Nation(10, colorSelect[8], 2);
+		cyan = new Nation(10, colorSelect[1], 3);
+		
 		none = new Nation(0, Color.GRAY, 0);
 		none.numberOfPixels = 50000;
 		none.troops = none.numberOfPixels * 2;
@@ -47,10 +49,10 @@ public class WorldManager implements ActionListener {
 				tileArray[i][e].nation = player;
 			}
 		}
-		// tileArray[50][50].nation = test;
+		// tileArray[50][50].nation = red;
 		for(int i = 119; i <122; i++) {
 			for(int e = 100; e<103; e++) {
-				tileArray[i][e].nation = test;
+				tileArray[i][e].nation = red;
 			}
 		}
 	}
@@ -85,33 +87,25 @@ public class WorldManager implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-	
+	// need to make a method for adding and troops every second. Preferably will call a method in GamePanel or Nation
 	//System.out.println("timer");
-		test.attack(player);
-	if (test.troops < test.numberOfPixels * 150) {
-			test.troops = (int) (test.troops * 1.1);
+		red.attack(player);
+	if (red.troops < red.numberOfPixels * 150) {
+			red.troops = (int) (red.troops * 1.1);
 		} else {
-			test.troops = test.numberOfPixels * 150;
+			red.troops = red.numberOfPixels * 150;
 		}
 		if(lazyTimer < 3) {
 			lazyTimer++;
 		}else {
-			test.troops = test.troops + test.numberOfPixels;
+			red.troops = red.troops + red.numberOfPixels;
 			player.troops = player.troops + player.numberOfPixels;
 			lazyTimer = 0;
 		}
 		// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
 
-		
+		Nation.updateTroops(player);
 
-		if (player.troops < player.numberOfPixels * 150) {
-			player.troops = (int) (player.troops * 1.1);
-		} else {
-			player.troops = player.numberOfPixels * 150;
-		}
 		
-		if(player.troops > player.numberOfPixels * 150) {
-			player.troops = player.numberOfPixels * 150;
-		}
 	}
 }

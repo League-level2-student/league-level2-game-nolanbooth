@@ -136,7 +136,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 		}if(cars.getKeyCode() == KeyEvent.VK_T) {
 			String oldTech = JOptionPane.showInputDialog("Which Nation would you like to attack?");
 		if(oldTech.equalsIgnoreCase("red")||oldTech.equalsIgnoreCase("r")) {
-			WorldManager.player.attack(WorldManager.test);
+			WorldManager.player.attack(WorldManager.red);
 		}
 		}
 	}
