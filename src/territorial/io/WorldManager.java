@@ -21,15 +21,15 @@ public class WorldManager implements ActionListener {
 	Random random = new Random();
 
 	WorldManager() {
-		player = new Nation(100, colorSelect[7], 1);
-		test = new Nation(100, colorSelect[8], 2);
+		player = new Nation(10, colorSelect[7], 1);
+		test = new Nation(10, colorSelect[8], 2);
 
 		none = new Nation(0, Color.GRAY, 0);
 		none.numberOfPixels = 50000;
 		none.troops = none.numberOfPixels * 2;
 
-		System.out.println(none.numberOfPixels);
-		System.out.println(none.troops);
+		//System.out.println(none.numberOfPixels);
+		//System.out.println(none.troops);
 
 		for (int i = 0; i < tileArray.length; i++) {
 			for (int k = 0; k < tileArray[i].length; k++) {
@@ -41,8 +41,18 @@ public class WorldManager implements ActionListener {
 				tileArray[i][e].calculateNeybers();
 			}
 		}
-		tileArray[100][100].nation = player;
-		tileArray[50][50].nation = test;
+	//	tileArray[125][100].nation = player;
+		for(int i = 123; i<125; i++){
+			for(int e = 98; e<100; e++) {
+				tileArray[i][e].nation = player;
+			}
+		}
+		// tileArray[50][50].nation = test;
+		for(int i = 119; i <122; i++) {
+			for(int e = 100; e<103; e++) {
+				tileArray[i][e].nation = test;
+			}
+		}
 	}
 
 	//void update() {
@@ -56,7 +66,7 @@ public class WorldManager implements ActionListener {
 			}
 
 		}
-		//Territorial_Runner.frame.setTitle("Target = " + target);
+		Territorial_Runner.frame.setTitle("Player Troops = " + player.troops + " None Troops = " + none.troops + " None Tpp = " + none.troopsPerPixel);
 
 	}
 
@@ -75,33 +85,33 @@ public class WorldManager implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		if(timer <= 1000) {
-		timer++;
-		
-		}else {
-		test.troops += test.numberOfPixels;
-		if (lazyTimer <= 2) {
-			lazyTimer++;
-		} else {
-			test.attack(player);
-			lazyTimer = 0;
-		}
-		if (test.troops < test.numberOfPixels * 150) {
+	
+	//System.out.println("timer");
+		test.attack(player);
+	if (test.troops < test.numberOfPixels * 150) {
 			test.troops = (int) (test.troops * 1.1);
 		} else {
 			test.troops = test.numberOfPixels * 150;
 		}
-
+		if(lazyTimer < 3) {
+			lazyTimer++;
+		}else {
+			test.troops = test.troops + test.numberOfPixels;
+			player.troops = player.troops + player.numberOfPixels;
+			lazyTimer = 0;
+		}
 		// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
 
-		player.troops += player.numberOfPixels;
+		
 
 		if (player.troops < player.numberOfPixels * 150) {
 			player.troops = (int) (player.troops * 1.1);
 		} else {
 			player.troops = player.numberOfPixels * 150;
 		}
-timer = 0;
-	}
+		
+		if(player.troops > player.numberOfPixels * 150) {
+			player.troops = player.numberOfPixels * 150;
+		}
 	}
 }

@@ -22,7 +22,7 @@ public class Nation {
 
 	void attack(Nation target) {
 		ArrayList<Tile> ownTiles = WorldManager.getNationTiles(this);
-		System.out.println(ownTiles.size());
+		//System.out.println(ownTiles.size());
 		numberOfPixels = WorldManager.getNationTiles(this).size();
 		
 		target.numberOfPixels = WorldManager.getNationTiles(target).size();
@@ -32,14 +32,10 @@ public class Nation {
 				//System.out.println("Neybers have been got");
 
 				if (tile.nation.nationNum == target.nationNum) {
+					troopsPerPixel = troops / numberOfPixels;
+					target.troopsPerPixel = target.troops / target.numberOfPixels;
 					if(troops <= 0) {
 						System.out.println("No troops left");
-						if(target.numberOfPixels > 0) {
-						target.troopsPerPixel = target.troops / target.numberOfPixels;
-						}
-						if(numberOfPixels > 0) {
-						troopsPerPixel = troops / numberOfPixels;
-						}
 						return;
 					}else{
 						troops = troops - target.troopsPerPixel;

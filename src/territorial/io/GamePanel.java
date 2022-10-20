@@ -54,7 +54,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 	void drawGameState(Graphics g) {
 		g.setColor(new Color(130, 138, 58));
 		g.fillRect(0, 0, Territorial_Runner.WIDTH, Territorial_Runner.HEIGHT);
-		startTimer();
+		
 		manager.draw(g);
 
 	}
@@ -79,7 +79,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 	void updateEndState() {
 
 	}static void startTimer(){
-		updateTroops = new Timer(1000/60, manager);
+		updateTroops = new Timer(1000, manager);
 		updateTroops.start();
 		
 		//aiAttack = new Timer(2000, manager);
@@ -119,6 +119,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 			System.out.println("cars are better than trains");
 			if (currentState == MENU) {
 				System.out.println("menu to game");
+				startTimer();
 				currentState = GAME;
 			} else if (currentState == END) {
 				System.out.println("end to menu");
@@ -134,7 +135,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 			JOptionPane.showMessageDialog(null, "Press SPACE to Attack. Press T to change target nation");
 		}if(cars.getKeyCode() == KeyEvent.VK_T) {
 			String oldTech = JOptionPane.showInputDialog("Which Nation would you like to attack?");
-		
+		if(oldTech.equalsIgnoreCase("red")||oldTech.equalsIgnoreCase("r")) {
+			WorldManager.player.attack(WorldManager.test);
+		}
 		}
 	}
 
