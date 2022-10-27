@@ -9,7 +9,7 @@ public class Tile {
 	int y;
 	boolean isBorder = true;
 	static Tile[] emptyNeybers = new Tile[0];
-	
+	static int size = 4;
 	Nation nation;
 	Tile[] neybers = {};
 	
@@ -23,9 +23,9 @@ public class Tile {
 
 	void draw(Graphics g) {
 		g.setColor(nation.color);
-		g.fillRect(x*4, y*4, 4, 4);
+		g.fillRect(x*size, y*size, size, size);
 		g.setColor(Color.BLUE);
-		g.drawRect(x*4, y*4, 4, 4);
+		g.drawRect(x*size, y*size, size, size);
 		
 	}void calculateNeybers(){
 		ArrayList<Tile> count = new ArrayList<Tile>();

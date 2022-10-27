@@ -26,6 +26,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 	Font massFont;
 	static WorldManager manager = new WorldManager();
 	static Timer updateTroops;
+	
 //	static Timer aiAttack;
 	
 	public GamePanel() {
@@ -133,13 +134,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 			manager.player.attack(manager.none);
 		}if(cars.getKeyCode() == KeyEvent.VK_I) {
 			JOptionPane.showMessageDialog(null, "Press SPACE to Attack. Press T to change target nation");
-		}if(cars.getKeyCode() == KeyEvent.VK_T) {
-			String oldTech = JOptionPane.showInputDialog("Which Nation would you like to attack?");
-		if(oldTech.equalsIgnoreCase("red")||oldTech.equalsIgnoreCase("r")) {
-			WorldManager.player.attack(WorldManager.red);
 		}
 		}
-	}
+	
 
 	@Override
 	public void keyReleased(KeyEvent e) {
@@ -148,9 +145,12 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 	}
 
 	@Override
-	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
-
+	public void mouseClicked(MouseEvent mouse) {
+	System.out.println("mouse pressed");
+	int mx = mouse.getX();
+	int my = mouse.getY() - 25;
+	WorldManager.player.attack(WorldManager.tileArray[mx/Tile.size][my/Tile.size].nation);
+	
 	}
 
 	@Override

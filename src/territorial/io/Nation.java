@@ -12,8 +12,8 @@ public class Nation {
 	int numberOfPixels;
 	int nationNum;
 	int troopsPerPixel;
+	int lazyTimer = 0;
 	
-
 	public Nation(int troops, Color color, int nationNum) {
 		this.troops = troops;
 		this.color = color;
@@ -21,6 +21,9 @@ public class Nation {
 	}
 
 	void attack(Nation target) {
+		if(target == this) return;
+			
+		
 		ArrayList<Tile> ownTiles = WorldManager.getNationTiles(this);
 		//System.out.println(ownTiles.size());
 		numberOfPixels = WorldManager.getNationTiles(this).size();
@@ -55,16 +58,26 @@ public class Nation {
 		troopsPerPixel = troops / numberOfPixels;
 		}
 		
-	}static void updateTroops(Nation nation){
-		if (nation.troops < nation.numberOfPixels * 150) {
-			nation.troops = (int) (nation.troops * 1.1);
+	} void updateTroops(){
+		
+		
+		if (troops < numberOfPixels * 150) {
+			troops = (int) (troops * 1.1);
 		} else {
-			nation.troops = nation.numberOfPixels * 150;
+			troops = numberOfPixels * 150;
 		}
 		
-		if(nation.troops > nation.numberOfPixels * 150) {
-			nation.troops = nation.numberOfPixels * 150;
+		if(troops > numberOfPixels * 150) {
+			troops = numberOfPixels * 150;
 		}
+		
+		if(lazyTimer < 3) {
+			lazyTimer++;
+		}else {
+			troops = troops + numberOfPixels;
+			lazyTimer = 0;
+		}
+	
 	}
 	
 

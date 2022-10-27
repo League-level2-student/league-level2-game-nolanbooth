@@ -13,11 +13,10 @@ public class WorldManager implements ActionListener {
 	static Nation player;
 	static Nation red;
 	static Nation cyan;
-	static int lazyTimer = 0;
 	static int timer = 0;
 	static Tile[][] tileArray = new Tile[250][200];
 	Color[] colorSelect = { Color.BLACK, Color.CYAN, Color.DARK_GRAY, Color.GREEN, Color.LIGHT_GRAY, Color.MAGENTA,
-			Color.ORANGE, Color.PINK, Color.RED, Color.YELLOW };
+			Color.ORANGE, Color.PINK, Color.RED, Color.YELLOW , };
 	int size;
 	Random random = new Random();
 
@@ -68,7 +67,7 @@ public class WorldManager implements ActionListener {
 			}
 
 		}
-		Territorial_Runner.frame.setTitle("Player Troops = " + player.troops + " None Troops = " + none.troops + " None Tpp = " + none.troopsPerPixel);
+		Territorial_Runner.frame.setTitle("Player Troops = " + player.troops + "Bot Troops" + red.troops);
 
 	}
 
@@ -90,22 +89,11 @@ public class WorldManager implements ActionListener {
 	// need to make a method for adding and troops every second. Preferably will call a method in GamePanel or Nation
 	//System.out.println("timer");
 		red.attack(player);
-	if (red.troops < red.numberOfPixels * 150) {
-			red.troops = (int) (red.troops * 1.1);
-		} else {
-			red.troops = red.numberOfPixels * 150;
-		}
-		if(lazyTimer < 3) {
-			lazyTimer++;
-		}else {
-			red.troops = red.troops + red.numberOfPixels;
-			player.troops = player.troops + player.numberOfPixels;
-			lazyTimer = 0;
-		}
+	
+		
 		// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
 
-		Nation.updateTroops(player);
-
-		
+		player.updateTroops();
+		red.updateTroops();
 	}
 }

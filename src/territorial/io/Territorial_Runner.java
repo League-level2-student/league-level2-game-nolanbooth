@@ -5,8 +5,8 @@ import javax.swing.JFrame;
 public class Territorial_Runner {
 	public static JFrame frame;
 	public static GamePanel gamepanel;
-	public static final int WIDTH = 1000;
-	public static final int HEIGHT = 800;
+	public static final int WIDTH = 1001;
+	public static final int HEIGHT = 823;
 
 	public static void main(String[] args) {
 		Territorial_Runner terry = new Territorial_Runner();
@@ -24,6 +24,7 @@ public class Territorial_Runner {
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.addKeyListener(gamepanel);
+		frame.addMouseListener(gamepanel);
 		
 	}
 
