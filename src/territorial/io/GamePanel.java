@@ -26,9 +26,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 	Font massFont;
 	static WorldManager manager = new WorldManager();
 	static Timer updateTroops;
-	
+
 //	static Timer aiAttack;
-	
+
 	public GamePanel() {
 		frameDraw = new Timer(1000 / 60, this);
 		frameDraw.start();
@@ -50,12 +50,13 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 		g.setColor(new Color(255, 255, 255));
 		g.drawString("P R E S S   E N T E R   TO   S T A R T", 300, 500);
 		g.drawString("P R E S S  I   F O R   I N S T R U C T I O N S", 270, 600);
+		
 	}
 
 	void drawGameState(Graphics g) {
 		g.setColor(new Color(130, 138, 58));
 		g.fillRect(0, 0, Territorial_Runner.WIDTH, Territorial_Runner.HEIGHT);
-		
+
 		manager.draw(g);
 
 	}
@@ -79,13 +80,15 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 
 	void updateEndState() {
 
-	}static void startTimer(){
+	}
+
+	static void startTimer() {
 		updateTroops = new Timer(1000, manager);
 		updateTroops.start();
-		
-		//aiAttack = new Timer(2000, manager);
-		//aiAttack.start();
-		
+
+		// aiAttack = new Timer(2000, manager);
+		// aiAttack.start();
+
 	}
 
 	@Override
@@ -129,14 +132,15 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 				currentState++;
 				System.out.println("current state added");
 			}
-		}if (cars.getKeyCode() == KeyEvent.VK_SPACE) {
-		//	System.out.println("space button detected - attack");
+		}
+		if (cars.getKeyCode() == KeyEvent.VK_SPACE) {
+			// System.out.println("space button detected - attack");
 			manager.player.attack(manager.none);
-		}if(cars.getKeyCode() == KeyEvent.VK_I) {
+		}
+		if (cars.getKeyCode() == KeyEvent.VK_I) {
 			JOptionPane.showMessageDialog(null, "Press SPACE to Attack. Press T to change target nation");
 		}
-		}
-	
+	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
@@ -146,11 +150,11 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 
 	@Override
 	public void mouseClicked(MouseEvent mouse) {
-	System.out.println("mouse pressed");
-	int mx = mouse.getX();
-	int my = mouse.getY() - 25;
-	WorldManager.player.attack(WorldManager.tileArray[mx/Tile.size][my/Tile.size].nation);
-	
+		System.out.println("mouse pressed");
+		int mx = mouse.getX();
+		int my = mouse.getY() - 25;
+		WorldManager.player.attack(WorldManager.tileArray[mx / Tile.size][my / Tile.size].nation);
+
 	}
 
 	@Override

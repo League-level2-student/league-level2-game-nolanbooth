@@ -12,61 +12,71 @@ public class Tile {
 	static int size = 4;
 	Nation nation;
 	Tile[] neybers = {};
-	
-	
+
 	public Tile(int x, int y, Nation nation) {
 		this.x = x;
 		this.y = y;
 		this.nation = nation;
-		
+
 	}
 
 	void draw(Graphics g) {
 		g.setColor(nation.color);
-		g.fillRect(x*size, y*size, size, size);
+		g.fillRect(x * size, y * size, size, size);
 		g.setColor(Color.BLUE);
-		g.drawRect(x*size, y*size, size, size);
-		
-	}void calculateNeybers(){
+		g.drawRect(x * size, y * size, size, size);
+
+	}
+
+	void calculateNeybers() {
 		ArrayList<Tile> count = new ArrayList<Tile>();
-		
-		if(x-1 >= 0) {
-			count.add(WorldManager.tileArray[x-1][y]);
-		}if(x+1 < WorldManager.tileArray.length) {
-			count.add(WorldManager.tileArray[x+1][y]);
-		}if(y-1 >= 0) {
-			count.add(WorldManager.tileArray[x][y-1]);
-		}if(y+1 < WorldManager.tileArray[x].length) {
-			count.add(WorldManager.tileArray[x][y+1]);
-		
+
+		if (x - 1 >= 0) {
+			count.add(WorldManager.tileArray[x - 1][y]);
+		}
+		if (x + 1 < WorldManager.tileArray.length) {
+			count.add(WorldManager.tileArray[x + 1][y]);
+		}
+		if (y - 1 >= 0) {
+			count.add(WorldManager.tileArray[x][y - 1]);
+		}
+		if (y + 1 < WorldManager.tileArray[x].length) {
+			count.add(WorldManager.tileArray[x][y + 1]);
+
 		}
 		neybers = new Tile[count.size()];
 		int i = 0;
-		for(Tile t : count) {
+		for (Tile t : count) {
 			neybers[i++] = t;
 
 		}
-	}public Tile[] getNeybers(){
-		
-		if(isBorder == false) {
+	}
+
+	public Tile[] getNeybers() {
+
+		if (isBorder == false) {
 			return emptyNeybers;
-			
-		}else {
+
+		} else {
 			return neybers;
 		}
-	}public void checkNeybers() {
+	}
+
+	public void checkNeybers() {
 		boolean isABorder = false;
-		for(Tile t : neybers) {
-			if(t.nation.nationNum != nation.nationNum) {
-			isABorder = true;
-			t.isBorder = true;
+		for (Tile t : neybers) {
+			if (t.nation.id != nation.id) {
+				isABorder = true;
+				t.isBorder = true;
 			}
 		}
 		isBorder = isABorder;
-	}public void setNation(Nation nation) {
+	}
+
+	public void setNation(Nation nation) {
 		this.nation = nation;
 		checkNeybers();
-		
+
 	}
 
 }

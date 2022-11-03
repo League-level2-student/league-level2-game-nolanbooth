@@ -7,58 +7,66 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Random;
 
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+
 public class WorldManager implements ActionListener {
 	// NOTE! countries can be every color except GRAY AND BLUE.
 	static Nation none;
 	static Nation player;
-	static Nation red;
-	static Nation cyan;
 	static int timer = 0;
 	static Tile[][] tileArray = new Tile[250][200];
 	Color[] colorSelect = { Color.BLACK, Color.CYAN, Color.DARK_GRAY, Color.GREEN, Color.LIGHT_GRAY, Color.MAGENTA,
-			Color.ORANGE, Color.PINK, Color.RED, Color.YELLOW , };
+			Color.ORANGE, Color.PINK, Color.RED, Color.PINK, };
 	int size;
 	Random random = new Random();
+	ArrayList<Nation> bots = new ArrayList<Nation>();
+	JFrame stats = new JFrame();
+	JLabel statsLabel = new JLabel();
 
 	WorldManager() {
-		player = new Nation(10, colorSelect[7], 1);
-		red = new Nation(10, colorSelect[8], 2);
-		cyan = new Nation(10, colorSelect[1], 3);
-		
+		intialStats();
+		player = new Nation(0, colorSelect[9], 1); // player is pink
+
 		none = new Nation(0, Color.GRAY, 0);
 		none.numberOfPixels = 50000;
 		none.troops = none.numberOfPixels * 2;
 
-		//System.out.println(none.numberOfPixels);
-		//System.out.println(none.troops);
-
 		for (int i = 0; i < tileArray.length; i++) {
 			for (int k = 0; k < tileArray[i].length; k++) {
 				tileArray[i][k] = new Tile(i, k, none);
+
 			}
 		}
+
 		for (int i = 0; i < tileArray.length; i++) {
 			for (int e = 0; e < tileArray[i].length; e++) {
 				tileArray[i][e].calculateNeybers();
 			}
 		}
-	//	tileArray[125][100].nation = player;
-		for(int i = 123; i<125; i++){
-			for(int e = 98; e<100; e++) {
+
+		for (int i = 123; i < 125; i++) {
+			for (int e = 98; e < 100; e++) {
 				tileArray[i][e].nation = player;
 			}
 		}
-		// tileArray[50][50].nation = red;
-		for(int i = 119; i <122; i++) {
-			for(int e = 100; e<103; e++) {
-				tileArray[i][e].nation = red;
+
+		for (int i = 0; i < 8; i++) {
+			Nation nation = new Nation(0, colorSelect[i], i + 3);
+			bots.add(nation);
+			System.out.println(nation);
+
+			for (int ii = 10 * i; ii < 10 * i + 3; ii++) {
+
+				for (int iii = 10 * i; iii < 10 * i + 3; iii++) {
+
+					tileArray[ii][iii].nation = nation;
+				}
 			}
+
 		}
+
 	}
-
-	//void update() {
-
-	//}
 
 	void draw(Graphics g) {
 		for (Tile[] t : tileArray) {
@@ -67,8 +75,27 @@ public class WorldManager implements ActionListener {
 			}
 
 		}
-		Territorial_Runner.frame.setTitle("Player Troops = " + player.troops + "Bot Troops" + red.troops);
+		Territorial_Runner.frame.setTitle("Player Troops = " + player.troops);
+		drawStats();
+	}
 
+	void intialStats() {
+		stats.setVisible(true);
+		stats.setSize(400, 600);
+		stats.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		stats.add(statsLabel);
+
+		// stats.pack();
+
+	}
+
+	void drawStats() {
+		String botStats = "<html>";
+		for (int i = 0; i < bots.size(); i++) {
+			botStats += " bot " + i + " troops = " + bots.get(i).troops + " <br> ";
+		}
+		statsLabel.setText(botStats);
+		stats.repaint();
 	}
 
 	public static ArrayList<Tile> getNationTiles(Nation nation) {
@@ -86,14 +113,16 @@ public class WorldManager implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-	// need to make a method for adding and troops every second. Preferably will call a method in GamePanel or Nation
-	//System.out.println("timer");
-		red.attack(player);
-	
-		
+		// need to make a method for adding and troops every second. Preferably will
+		// call a method in GamePanel or Nation
+		// System.out.println("timer");
+
 		// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
 
 		player.updateTroops();
-		red.updateTroops();
+
+		for (int i = 0; i < bots.size(); i++) {
+			bots.get(i).updateTroops();
+		}
 	}
 }
