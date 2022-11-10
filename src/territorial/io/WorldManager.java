@@ -16,15 +16,23 @@ public class WorldManager implements ActionListener {
 	static Nation player;
 	static int timer = 0;
 	static Tile[][] tileArray = new Tile[250][200];
-	Color[] colorSelect = { Color.BLACK, Color.CYAN, Color.DARK_GRAY, Color.GREEN, Color.LIGHT_GRAY, Color.MAGENTA,
-			Color.ORANGE, Color.PINK, Color.RED, Color.PINK, };
+	static ArrayList<Nation> bots = new ArrayList<Nation>();
+	Color[] colorSelect = { Color.BLACK, Color.CYAN, Color.PINK, Color.GREEN, Color.LIGHT_GRAY, Color.MAGENTA,
+			Color.ORANGE, Color.PINK, Color.RED, Color.DARK_GRAY};
+	
+	
 	int size;
 	Random random = new Random();
-	ArrayList<Nation> bots = new ArrayList<Nation>();
+
 	JFrame stats = new JFrame();
 	JLabel statsLabel = new JLabel();
 
 	WorldManager() {
+		//interesting test, apparently it returns out of bounds error
+		//int[] test = {1,2,3,4,5,};
+		//System.out.println(test.length);
+		//System.out.println(test[5]);
+		
 		intialStats();
 		player = new Nation(0, colorSelect[9], 1); // player is pink
 
@@ -51,23 +59,24 @@ public class WorldManager implements ActionListener {
 			}
 		}
 
-		for (int i = 0; i < 8; i++) {
+		for (int i = 0; i < 7; i++) {
 			Nation nation = new Nation(0, colorSelect[i], i + 3);
 			bots.add(nation);
-			System.out.println(nation);
+			System.out.println(nation); //make bots have spawning places surrounding the player
 
-			for (int ii = 10 * i; ii < 10 * i + 3; ii++) {
+			/*for (int ii = 10 * i; ii < 10 * i + 3; ii++) {
 
 				for (int iii = 10 * i; iii < 10 * i + 3; iii++) {
 
 					tileArray[ii][iii].nation = nation;
 				}
-			}
+			}*/
+			
 
 		}
 
 	}
-
+	
 	void draw(Graphics g) {
 		for (Tile[] t : tileArray) {
 			for (Tile tile : t) {
@@ -112,17 +121,10 @@ public class WorldManager implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		// need to make a method for adding and troops every second. Preferably will
-		// call a method in GamePanel or Nation
-		// System.out.println("timer");
-
-		// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-
 		player.updateTroops();
-
 		for (int i = 0; i < bots.size(); i++) {
 			bots.get(i).updateTroops();
 		}
+		Nation.aiActions();
 	}
 }

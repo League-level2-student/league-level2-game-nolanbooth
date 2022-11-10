@@ -56,7 +56,6 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 	void drawGameState(Graphics g) {
 		g.setColor(new Color(130, 138, 58));
 		g.fillRect(0, 0, Territorial_Runner.WIDTH, Territorial_Runner.HEIGHT);
-
 		manager.draw(g);
 
 	}
@@ -138,7 +137,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 			manager.player.attack(manager.none);
 		}
 		if (cars.getKeyCode() == KeyEvent.VK_I) {
-			JOptionPane.showMessageDialog(null, "Press SPACE to Attack. Press T to change target nation");
+			JOptionPane.showMessageDialog(null, "Press SPACE to expand into the unclaimed land. To attack nations, click on their territory");
 		}
 	}
 
@@ -150,7 +149,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 
 	@Override
 	public void mouseClicked(MouseEvent mouse) {
-		System.out.println("mouse pressed");
+		//System.out.println("mouse pressed");
 		int mx = mouse.getX();
 		int my = mouse.getY() - 25;
 		WorldManager.player.attack(WorldManager.tileArray[mx / Tile.size][my / Tile.size].nation);
