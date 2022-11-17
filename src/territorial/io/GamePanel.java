@@ -19,6 +19,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 	final int GAME = 1;
 	final int END = 2;
 	Timer frameDraw;
+	static Timer attackTimer;
 	int currentState;
 	Graphics g;
 	Font titleFont;
@@ -26,11 +27,13 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 	Font massFont;
 	static WorldManager manager = new WorldManager();
 	static Timer updateTroops;
+	static double armyPercent = 0.5;
 
 //	static Timer aiAttack;
 
 	public GamePanel() {
 		frameDraw = new Timer(1000 / 60, this);
+
 		frameDraw.start();
 		titleFont = new Font("Arial", Font.ITALIC, 48);
 		regFont = new Font("Arial", Font.PLAIN, 20);
@@ -50,7 +53,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 		g.setColor(new Color(255, 255, 255));
 		g.drawString("P R E S S   E N T E R   TO   S T A R T", 300, 500);
 		g.drawString("P R E S S  I   F O R   I N S T R U C T I O N S", 270, 600);
-		
+
 	}
 
 	void drawGameState(Graphics g) {
@@ -84,9 +87,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 	static void startTimer() {
 		updateTroops = new Timer(1000, manager);
 		updateTroops.start();
-
-		// aiAttack = new Timer(2000, manager);
-		// aiAttack.start();
+		attackTimer = new Timer(250, manager);
+		attackTimer.start();
 
 	}
 
@@ -134,10 +136,11 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 		}
 		if (cars.getKeyCode() == KeyEvent.VK_SPACE) {
 			// System.out.println("space button detected - attack");
-			manager.player.attack(manager.none);
+			manager.player.attack(manager.none, (int)(manager.player.troops * armyPercent));
 		}
 		if (cars.getKeyCode() == KeyEvent.VK_I) {
-			JOptionPane.showMessageDialog(null, "Press SPACE to expand into the unclaimed land. To attack nations, click on their territory");
+			JOptionPane.showMessageDialog(null,
+					"Press SPACE to expand into the unclaimed land. To attack nations, click on their territory");
 		}
 	}
 
@@ -149,11 +152,17 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 
 	@Override
 	public void mouseClicked(MouseEvent mouse) {
-		//System.out.println("mouse pressed");
+		// System.out.println("mouse pressed");
+		
+		if(mouse.getY() < 824) {
 		int mx = mouse.getX();
 		int my = mouse.getY() - 25;
-		WorldManager.player.attack(WorldManager.tileArray[mx / Tile.size][my / Tile.size].nation);
-
+		Nation target = WorldManager.tileArray[mx / Tile.size][my / Tile.size].nation;
+		WorldManager.player.attack(target, (int)(manager.player.troops * armyPercent));
+		}else {
+			//put code for interface stuff here
+			
+		}
 	}
 
 	@Override

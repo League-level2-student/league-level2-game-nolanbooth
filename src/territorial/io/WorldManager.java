@@ -18,9 +18,9 @@ public class WorldManager implements ActionListener {
 	static Tile[][] tileArray = new Tile[250][200];
 	static ArrayList<Nation> bots = new ArrayList<Nation>();
 	Color[] colorSelect = { Color.BLACK, Color.CYAN, Color.PINK, Color.GREEN, Color.LIGHT_GRAY, Color.MAGENTA,
-			Color.ORANGE, Color.PINK, Color.RED, Color.DARK_GRAY};
-	
-	
+			Color.ORANGE, Color.PINK, Color.RED, Color.DARK_GRAY };
+
+
 	int size;
 	Random random = new Random();
 
@@ -28,11 +28,11 @@ public class WorldManager implements ActionListener {
 	JLabel statsLabel = new JLabel();
 
 	WorldManager() {
-		//interesting test, apparently it returns out of bounds error
-		//int[] test = {1,2,3,4,5,};
-		//System.out.println(test.length);
-		//System.out.println(test[5]);
-		
+		// interesting test, apparently it returns out of bounds error
+		// int[] test = {1,2,3,4,5,};
+		// System.out.println(test.length);
+		// System.out.println(test[5]);
+
 		intialStats();
 		player = new Nation(0, colorSelect[9], 1); // player is pink
 
@@ -52,9 +52,11 @@ public class WorldManager implements ActionListener {
 				tileArray[i][e].calculateNeybers();
 			}
 		}
-
-		for (int i = 123; i < 125; i++) {
-			for (int e = 98; e < 100; e++) {
+		int playerX = 123;
+		int playerY = 98;
+		
+		for (int i = playerX; i < playerX + 2; i++) {
+			for (int e = playerY; e < playerY + 2; e++) {
 				tileArray[i][e].nation = player;
 			}
 		}
@@ -62,21 +64,63 @@ public class WorldManager implements ActionListener {
 		for (int i = 0; i < 7; i++) {
 			Nation nation = new Nation(0, colorSelect[i], i + 3);
 			bots.add(nation);
-			System.out.println(nation); //make bots have spawning places surrounding the player
+			System.out.println(nation); // make bots have spawning places surrounding the player
 
-			/*for (int ii = 10 * i; ii < 10 * i + 3; ii++) {
+			/*
+			 * for (int ii = 10 * i; ii < 10 * i + 3; ii++) {
+			 * 
+			 * for (int iii = 10 * i; iii < 10 * i + 3; iii++) {
+			 * 
+			 * tileArray[ii][iii].nation = nation; } }
+			 */
 
-				for (int iii = 10 * i; iii < 10 * i + 3; iii++) {
-
-					tileArray[ii][iii].nation = nation;
-				}
-			}*/
-			
-
+		}
+		// setting up bot #1 land
+		
+		for (int k = playerX; k < playerX + 2; k++) {
+			for (int j = playerY - 50; j < playerY - 48; j++) {
+				tileArray[k][j].nation = bots.get(0);
+			}
+		}
+		// setting up bot #2 land
+		for (int k = playerX; k < playerX + 2; k++) {
+			for (int j = playerY + 50; j < playerY + 52; j++) {
+				tileArray[k][j].nation = bots.get(1);
+			}
+		}
+		// setting up bot #3 land
+		for (int k = playerX - 50; k < playerX - 48; k++) {
+			for (int j = playerY; j < playerY + 2; j++) {
+				tileArray[k][j].nation = bots.get(2);
+			}
+		}
+		// setting up bot #4 land
+		for (int k = playerX + 50; k < playerX + 52; k++) {
+			for (int j = playerY; j < playerY + 2; j++) {
+				tileArray[k][j].nation = bots.get(3);
+			}
+		}
+		// bot 5
+		for (int k = playerX + 50; k < playerX + 52; k++) {
+			for (int j = playerY - 50; j < playerY - 48; j++) {
+				tileArray[k][j].nation = bots.get(4);
+			}
+		}
+		// bot 6
+		for (int k = playerX + 50; k < playerX + 52; k++) {
+			for (int j = playerY + 50; j < playerY + 52; j++) {
+				tileArray[k][j].nation = bots.get(5);
+			}
+		}
+		// bot 7
+		for (int k = playerX + 50; k < playerX + 52; k++) {
+			for (int j = playerY - 50; j < playerY - 48; j++) {
+				tileArray[k][j].nation = bots.get(6);
+			}
 		}
 
 	}
-	
+
 	void draw(Graphics g) {
 		for (Tile[] t : tileArray) {
 			for (Tile tile : t) {
@@ -121,10 +165,18 @@ public class WorldManager implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		player.updateTroops();
-		for (int i = 0; i < bots.size(); i++) {
-			bots.get(i).updateTroops();
+
+		if (e.getSource() == GamePanel.updateTroops) {
+			player.updateTroops();
+			for (int i = 0; i < bots.size(); i++) {
+				bots.get(i).updateTroops();
+			}
+			Nation.aiActions();
+		} else if (e.getSource() == GamePanel.attackTimer) {
+			player.contAttack();
+			for (int i = 0; i < bots.size(); i++) {
+				bots.get(i).contAttack();
+			}
 		}
-		Nation.aiActions();
 	}
 }

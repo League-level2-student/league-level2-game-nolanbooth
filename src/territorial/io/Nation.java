@@ -16,7 +16,7 @@ public class Nation {
 	int lazyTimer = 0;
 	static Random ran = new Random();
 	static ArrayList<Nation> bots = WorldManager.bots;
-
+	ArrayList<Attack> contAttacks = new ArrayList<Attack>();
 	static ArrayList<Nation> neyberingNations;
 
 	public Nation(int troops, Color color, int nationNum) {
@@ -25,7 +25,7 @@ public class Nation {
 		this.id = nationNum;
 	}
 
-	void attack(Nation target) {
+	void attack(Nation target, int strength) {
 		if (target == this)
 			return;
 
@@ -42,7 +42,7 @@ public class Nation {
 					troopsPerPixel = troops / numberOfPixels;
 					target.troopsPerPixel = target.troops / target.numberOfPixels;
 					if (troops <= 0) {
-						//System.out.println("No troops left");
+						// System.out.println("No troops left");
 						return;
 					} else {
 						troops = troops - target.troopsPerPixel;
@@ -61,7 +61,30 @@ public class Nation {
 		if (numberOfPixels > 0) {
 			troopsPerPixel = troops / numberOfPixels;
 		}
+		if (troops >= 0) {
 
+			boolean attackExists = false;
+			for (int i = 0; i < contAttacks.size(); i++) {
+				if (contAttacks.get(i).target == target) {
+					attackExists = true;
+
+				}
+			}
+			if (!attackExists) {
+				contAttacks.add(new Attack(target, this, troops));
+			}
+		}
+	}
+
+	void contAttack() {
+		for (int i = 0; i < contAttacks.size(); i++) {
+			if (troops > 0) {
+				attack(contAttacks.get(i).target, contAttacks.get(i).strength);
+			} else {
+				contAttacks.remove(i);
+				i -= 1;
+			}
+		}
 	}
 
 	void getNeybers() {
@@ -87,44 +110,47 @@ public class Nation {
 
 		if (troops < numberOfPixels * 150) {
 			troops = (int) (troops * 1.5);
-			if(troops <= 0) {
+			if (troops <= 0) {
 				troops = 0;
 			}
-		}if (troops > numberOfPixels * 150) {
+		}
+		if (troops > numberOfPixels * 150) {
 			troops = numberOfPixels * 150;
 		}
 
 		if (lazyTimer < 3) {
 			lazyTimer++;
 		} else {
-			if(troops >= numberOfPixels * 150) {
+			if (troops >= numberOfPixels * 150) {
 				return;
-			}else {
-			troops = troops + numberOfPixels;
-			lazyTimer = 0;
+			} else {
+				troops = troops + numberOfPixels;
+				lazyTimer = 0;
 			}
 		}
 
 	}
 
 	static void aiActions() {
-	
-	//	System.out.print(ran.nextInt(10));
-		if(ran.nextInt(4)%2 == 0) {
-			for(int i = /*once upon a time there was a boy named bob who was a really bad boy. Once he was playing tag on the street and then SQUASH*/0; i < bots.size(); i++) {
-				
-				//bots.get(i).attack(bots.get(neyberingNations.get(0).id)); figure out way to make the nation attack their neybers
-				
-				 
-				 
+
+		// System.out.print(ran.nextInt(10));
+		if (ran.nextInt(4) % 2 == 0) {
+			for (int i = /*
+							 * once upon a time there was a boy named bob who was a really bad boy. Once he
+							 * was playing tag on the street and then SQUASH
+							 */0; i < bots.size(); i++) {
+
+				// bots.get(i).attack(bots.get(neyberingNations.get(0).id)); figure out way to
+				// make the nation attack their neybers
+
 			}
-		}else {
-			for(int j = 0; j < bots.size(); j++) {
-				if(ran.nextInt(2) == 0) {
-					bots.get(j).attack(WorldManager.player);
-					
-				}else {
-					bots.get(j).attack(WorldManager.none);
+		} else {
+			for (int j = 0; j < bots.size(); j++) {
+				if (ran.nextInt(2) == 0) {
+					bots.get(j).attack(WorldManager.player, bots.get(j).troops);
+
+				} else {
+					bots.get(j).attack(WorldManager.none, bots.get(j).troops);
 				}
 			}
 		}
