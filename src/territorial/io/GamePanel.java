@@ -28,6 +28,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 	static WorldManager manager = new WorldManager();
 	static Timer updateTroops;
 	static double armyPercent = 0.5;
+	int barPercent = 50;
 
 //	static Timer aiAttack;
 
@@ -38,6 +39,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 		titleFont = new Font("Arial", Font.ITALIC, 48);
 		regFont = new Font("Arial", Font.PLAIN, 20);
 		massFont = new Font("Arial", Font.PLAIN, 125);
+	
 	}
 
 	void drawMenuState(Graphics g) {
@@ -53,13 +55,14 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 		g.setColor(new Color(255, 255, 255));
 		g.drawString("P R E S S   E N T E R   TO   S T A R T", 300, 500);
 		g.drawString("P R E S S  I   F O R   I N S T R U C T I O N S", 270, 600);
-
+		
 	}
 
 	void drawGameState(Graphics g) {
 		g.setColor(new Color(130, 138, 58));
 		g.fillRect(0, 0, Territorial_Runner.WIDTH, Territorial_Runner.HEIGHT);
 		manager.draw(g);
+		drawPercentBar(g);
 
 	}
 
@@ -70,6 +73,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 		g.setColor(new Color(110, 7, 7));
 		g.drawString("GAME OVER", Territorial_Runner.WIDTH / 3, 200);
 
+	}void drawPercentBar(Graphics g){
+		g.setColor(new Color(105, 25, 91));
+		g.fillRect(0, 830, (int) (Territorial_Runner.WIDTH * (barPercent/100.0)), 35);
 	}
 
 	void updateMenuState() {
@@ -98,6 +104,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 			drawMenuState(g);
 		} else if (currentState == GAME) {
 			drawGameState(g);
+			
 
 		} else if (currentState == END) {
 			drawEndState(g);
@@ -136,7 +143,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 		}
 		if (cars.getKeyCode() == KeyEvent.VK_SPACE) {
 			// System.out.println("space button detected - attack");
-			manager.player.attack(manager.none, (int)(manager.player.troops * armyPercent));
+			manager.player.attack(manager.none, (int)(manager.player.troops * (barPercent/100)));
 		}
 		if (cars.getKeyCode() == KeyEvent.VK_I) {
 			JOptionPane.showMessageDialog(null,
@@ -153,14 +160,14 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 	@Override
 	public void mouseClicked(MouseEvent mouse) {
 		// System.out.println("mouse pressed");
-		
-		if(mouse.getY() < 824) {
 		int mx = mouse.getX();
-		int my = mouse.getY() - 25;
+		int my = mouse.getY()-25;
+		if(mouse.getY() < 824) {
 		Nation target = WorldManager.tileArray[mx / Tile.size][my / Tile.size].nation;
-		WorldManager.player.attack(target, (int)(manager.player.troops * armyPercent));
+		WorldManager.player.attack(target, (int)(WorldManager.player.troops * (barPercent/100.0)));
 		}else {
-			//put code for interface stuff here
+			barPercent = (int) (mx / (Territorial_Runner.WIDTH/100.0));
+			System.out.println(barPercent);
 			
 		}
 	}

@@ -28,27 +28,31 @@ public class Nation {
 	void attack(Nation target, int strength) {
 		if (target == this)
 			return;
-
+		troops -= strength;
 		ArrayList<Tile> ownTiles = WorldManager.getNationTiles(this);
 
 		numberOfPixels = WorldManager.getNationTiles(this).size();
-
+		
+		if(numberOfPixels > 0) {
+		troopsPerPixel = troops / numberOfPixels;
+		
+		}
 		target.numberOfPixels = WorldManager.getNationTiles(target).size();
-		for (Tile t : ownTiles) {
+		target.troopsPerPixel = target.troops / target.numberOfPixels;
+		
+		bill: for (Tile t : ownTiles) {
 
 			for (Tile tile : t.getNeybers()) {
 
 				if (tile.nation.id == target.id) {
-					troopsPerPixel = troops / numberOfPixels;
-					target.troopsPerPixel = target.troops / target.numberOfPixels;
-					if (troops <= 0) {
-						// System.out.println("No troops left");
-						return;
-					} else {
-						troops = troops - target.troopsPerPixel;
-						target.troops = target.troops - target.troopsPerPixel;
-
+					
+					if(strength <= 0) {
+						break bill;
+					}else {
+					strength = strength - target.troopsPerPixel;
+					target.troops = target.troops - target.troopsPerPixel;
 					}
+					
 					tile.setNation(this);
 				}
 			}
@@ -61,7 +65,7 @@ public class Nation {
 		if (numberOfPixels > 0) {
 			troopsPerPixel = troops / numberOfPixels;
 		}
-		if (troops >= 0) {
+		if (strength >= 0) {
 
 			boolean attackExists = false;
 			for (int i = 0; i < contAttacks.size(); i++) {
@@ -71,14 +75,14 @@ public class Nation {
 				}
 			}
 			if (!attackExists) {
-				contAttacks.add(new Attack(target, this, troops));
+				contAttacks.add(new Attack(target, this, strength));
 			}
 		}
 	}
 
 	void contAttack() {
 		for (int i = 0; i < contAttacks.size(); i++) {
-			if (troops > 0) {
+			if (contAttacks.get(i).strength > 0) {
 				attack(contAttacks.get(i).target, contAttacks.get(i).strength);
 			} else {
 				contAttacks.remove(i);

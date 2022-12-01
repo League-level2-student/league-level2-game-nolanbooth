@@ -1,3 +1,4 @@
+
 package territorial.io;
 
 import java.awt.Color;
@@ -20,7 +21,7 @@ public class WorldManager implements ActionListener {
 	Color[] colorSelect = { Color.BLACK, Color.CYAN, Color.PINK, Color.GREEN, Color.LIGHT_GRAY, Color.MAGENTA,
 			Color.ORANGE, Color.PINK, Color.RED, Color.DARK_GRAY };
 
-
+	
 	int size;
 	Random random = new Random();
 
@@ -43,7 +44,7 @@ public class WorldManager implements ActionListener {
 		for (int i = 0; i < tileArray.length; i++) {
 			for (int k = 0; k < tileArray[i].length; k++) {
 				tileArray[i][k] = new Tile(i, k, none);
-
+				
 			}
 		}
 
