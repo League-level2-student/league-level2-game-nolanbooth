@@ -25,34 +25,35 @@ public class Nation {
 		this.id = nationNum;
 	}
 
-	void attack(Nation target, int strength) {
+	int attack(Nation target, int strength) {
 		if (target == this)
-			return;
-		troops -= strength;
+			return strength;
+		
 		ArrayList<Tile> ownTiles = WorldManager.getNationTiles(this);
 
 		numberOfPixels = WorldManager.getNationTiles(this).size();
-		
-		if(numberOfPixels > 0) {
-		troopsPerPixel = troops / numberOfPixels;
-		
+
+		if (numberOfPixels > 0) {
+			troopsPerPixel = troops / numberOfPixels;
+
 		}
-		target.numberOfPixels = WorldManager.getNationTiles(target).size();
-		target.troopsPerPixel = target.troops / target.numberOfPixels;
-		
+		if (target.numberOfPixels > 0) {
+			target.numberOfPixels = WorldManager.getNationTiles(target).size();
+			target.troopsPerPixel = target.troops / target.numberOfPixels;
+		}
 		bill: for (Tile t : ownTiles) {
 
 			for (Tile tile : t.getNeybers()) {
 
 				if (tile.nation.id == target.id) {
-					
-					if(strength <= 0) {
+
+					if (strength <= 0) {
 						break bill;
-					}else {
-					strength = strength - target.troopsPerPixel;
-					target.troops = target.troops - target.troopsPerPixel;
+					} else {
+						strength = strength - target.troopsPerPixel;
+						target.troops = target.troops - target.troopsPerPixel;
 					}
-					
+
 					tile.setNation(this);
 				}
 			}
@@ -64,6 +65,12 @@ public class Nation {
 		}
 		if (numberOfPixels > 0) {
 			troopsPerPixel = troops / numberOfPixels;
+		}
+		if (troops <= 0) {
+			troops = 0;
+		}
+		if (target.troops <= 0) {
+			target.troops = 0;
 		}
 		if (strength >= 0) {
 
@@ -78,12 +85,14 @@ public class Nation {
 				contAttacks.add(new Attack(target, this, strength));
 			}
 		}
+		return strength;
 	}
 
 	void contAttack() {
 		for (int i = 0; i < contAttacks.size(); i++) {
 			if (contAttacks.get(i).strength > 0) {
-				attack(contAttacks.get(i).target, contAttacks.get(i).strength);
+				contAttacks.get(i).strength = attack(contAttacks.get(i).target, contAttacks.get(i).strength);
+				
 			} else {
 				contAttacks.remove(i);
 				i -= 1;

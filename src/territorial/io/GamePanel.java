@@ -143,7 +143,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 		}
 		if (cars.getKeyCode() == KeyEvent.VK_SPACE) {
 			// System.out.println("space button detected - attack");
-			manager.player.attack(manager.none, (int)(manager.player.troops * (barPercent/100)));
+			int attackPower = (int)(manager.player.troops * (barPercent/100));
+			manager.player.attack(manager.none, attackPower);
+			WorldManager.player.troops -= attackPower;
 		}
 		if (cars.getKeyCode() == KeyEvent.VK_I) {
 			JOptionPane.showMessageDialog(null,
