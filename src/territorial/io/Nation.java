@@ -28,7 +28,7 @@ public class Nation {
 	int attack(Nation target, int strength) {
 		if (target == this)
 			return strength;
-		
+
 		ArrayList<Tile> ownTiles = WorldManager.getNationTiles(this);
 
 		numberOfPixels = WorldManager.getNationTiles(this).size();
@@ -37,8 +37,9 @@ public class Nation {
 			troopsPerPixel = troops / numberOfPixels;
 
 		}
+		target.numberOfPixels = WorldManager.getNationTiles(target).size();
 		if (target.numberOfPixels > 0) {
-			target.numberOfPixels = WorldManager.getNationTiles(target).size();
+
 			target.troopsPerPixel = target.troops / target.numberOfPixels;
 		}
 		bill: for (Tile t : ownTiles) {
@@ -92,7 +93,7 @@ public class Nation {
 		for (int i = 0; i < contAttacks.size(); i++) {
 			if (contAttacks.get(i).strength > 0) {
 				contAttacks.get(i).strength = attack(contAttacks.get(i).target, contAttacks.get(i).strength);
-				
+
 			} else {
 				contAttacks.remove(i);
 				i -= 1;
@@ -144,29 +145,29 @@ public class Nation {
 
 	}
 
-	static void aiActions() {
-
-		// System.out.print(ran.nextInt(10));
-		if (ran.nextInt(4) % 2 == 0) {
-			for (int i = /*
-							 * once upon a time there was a boy named bob who was a really bad boy. Once he
-							 * was playing tag on the street and then SQUASH
-							 */0; i < bots.size(); i++) {
-
-				// bots.get(i).attack(bots.get(neyberingNations.get(0).id)); figure out way to
-				// make the nation attack their neybers
-
-			}
-		} else {
-			for (int j = 0; j < bots.size(); j++) {
-				if (ran.nextInt(2) == 0) {
-					bots.get(j).attack(WorldManager.player, bots.get(j).troops);
-
-				} else {
-					bots.get(j).attack(WorldManager.none, bots.get(j).troops);
-				}
+	Nation getWeakestNation() {
+		int leastTroops = neyberingNations.get(0).troops;
+		Nation weakestNation = neyberingNations.get(0);
+		for (int i = 0; i < neyberingNations.size(); i++) {
+			if (neyberingNations.get(i).troops < leastTroops) {
+				leastTroops = neyberingNations.get(i).troops;
+				weakestNation = neyberingNations.get(i);
 			}
 		}
+		return weakestNation;
+	}
+
+	static void aiActions() {
+
+		for (int i = 0; i < bots.size(); i++) {
+			bots.get(i).getNeybers();
+			if (neyberingNations.size() == 0) {
+
+			} else {
+				bots.get(i).attack(bots.get(i).getWeakestNation(), bots.get(i).troops);
+			}
+		}
+
 	}
 
 }

@@ -15,12 +15,13 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 public class GamePanel extends JPanel implements ActionListener, KeyListener, MouseListener {
-	final int MENU = 0;
-	final int GAME = 1;
-	final int END = 2;
+	static final int MENU = 0;
+	static final int GAME = 1;
+	static final int END = 2;
 	Timer frameDraw;
+	static Timer endTimer;
 	static Timer attackTimer;
-	int currentState;
+	static int currentState;
 	Graphics g;
 	Font titleFont;
 	Font regFont;
@@ -34,12 +35,11 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 
 	public GamePanel() {
 		frameDraw = new Timer(1000 / 60, this);
-
 		frameDraw.start();
 		titleFont = new Font("Arial", Font.ITALIC, 48);
 		regFont = new Font("Arial", Font.PLAIN, 20);
 		massFont = new Font("Arial", Font.PLAIN, 125);
-	
+
 	}
 
 	void drawMenuState(Graphics g) {
@@ -55,7 +55,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 		g.setColor(new Color(255, 255, 255));
 		g.drawString("P R E S S   E N T E R   TO   S T A R T", 300, 500);
 		g.drawString("P R E S S  I   F O R   I N S T R U C T I O N S", 270, 600);
-		
+
 	}
 
 	void drawGameState(Graphics g) {
@@ -73,9 +73,11 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 		g.setColor(new Color(110, 7, 7));
 		g.drawString("GAME OVER", Territorial_Runner.WIDTH / 3, 200);
 
-	}void drawPercentBar(Graphics g){
+	}
+
+	void drawPercentBar(Graphics g) {
 		g.setColor(new Color(105, 25, 91));
-		g.fillRect(0, 830, (int) (Territorial_Runner.WIDTH * (barPercent/100.0)), 35);
+		g.fillRect(0, 830, (int) (Territorial_Runner.WIDTH * (barPercent / 100.0)), 35);
 	}
 
 	void updateMenuState() {
@@ -95,7 +97,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 		updateTroops.start();
 		attackTimer = new Timer(250, manager);
 		attackTimer.start();
-
+		endTimer = new Timer(1000, manager);
+		endTimer.start();
 	}
 
 	@Override
@@ -104,7 +107,6 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 			drawMenuState(g);
 		} else if (currentState == GAME) {
 			drawGameState(g);
-			
 
 		} else if (currentState == END) {
 			drawEndState(g);
@@ -141,12 +143,13 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 				System.out.println("current state added");
 			}
 		}
-		if (cars.getKeyCode() == KeyEvent.VK_SPACE) {
-			// System.out.println("space button detected - attack");
-			int attackPower = (int)(manager.player.troops * (barPercent/100));
-			manager.player.attack(manager.none, attackPower);
-			WorldManager.player.troops -= attackPower;
-		}
+		/*
+		 * if (cars.getKeyCode() == KeyEvent.VK_SPACE) { //
+		 * System.out.println("space button detected - attack"); int attackPower =
+		 * (int)(manager.player.troops * (barPercent/100));
+		 * manager.player.attack(manager.none, attackPower); WorldManager.player.troops
+		 * -= attackPower; }
+		 */
 		if (cars.getKeyCode() == KeyEvent.VK_I) {
 			JOptionPane.showMessageDialog(null,
 					"Press SPACE to expand into the unclaimed land. To attack nations, click on their territory");
@@ -163,14 +166,17 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 	public void mouseClicked(MouseEvent mouse) {
 		// System.out.println("mouse pressed");
 		int mx = mouse.getX();
-		int my = mouse.getY()-25;
-		if(mouse.getY() < 824) {
-		Nation target = WorldManager.tileArray[mx / Tile.size][my / Tile.size].nation;
-		WorldManager.player.attack(target, (int)(WorldManager.player.troops * (barPercent/100.0)));
-		}else {
-			barPercent = (int) (mx / (Territorial_Runner.WIDTH/100.0));
+		int my = mouse.getY() - 25;
+		if (mouse.getY() < 824) {
+			Nation target = WorldManager.tileArray[mx / Tile.size][my / Tile.size].nation;
+			int attackPower = (int) (WorldManager.player.troops * (barPercent / 100.0));
+			WorldManager.player.attack(target, attackPower);
+			WorldManager.player.troops -= attackPower;
+
+		} else {
+			barPercent = (int) (mx / (Territorial_Runner.WIDTH / 100.0));
 			System.out.println(barPercent);
-			
+
 		}
 	}
 
