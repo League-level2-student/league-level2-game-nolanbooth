@@ -123,7 +123,7 @@ public class Nation {
 		numberOfPixels = WorldManager.getNationTiles(this).size();
 
 		if (troops < numberOfPixels * 150) {
-			troops = (int) (troops * 1.5);
+			troops = (int) (troops * 1.2);
 			if (troops <= 0) {
 				troops = 0;
 			}
@@ -164,7 +164,8 @@ public class Nation {
 			if (neyberingNations.size() == 0) {
 
 			} else {
-				bots.get(i).attack(bots.get(i).getWeakestNation(), bots.get(i).troops);
+				bots.get(i).attack(bots.get(i).getWeakestNation(), (int) (bots.get(i).troops));
+				bots.get(i).troops = (int)(bots.get(i).troops);
 			}
 		}
 

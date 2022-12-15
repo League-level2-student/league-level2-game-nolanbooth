@@ -10,6 +10,7 @@ import java.util.Random;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 public class WorldManager implements ActionListener {
 	// NOTE! countries can be every color except GRAY AND BLUE.
@@ -34,8 +35,8 @@ public class WorldManager implements ActionListener {
 		// System.out.println(test[5]);
 
 		intialStats();
-		player = new Nation(0, colorSelect[9], 1); // player is pink
-
+		player = new Nation(250, colorSelect[9], 1); // player is pink
+		System.out.println(player.troops);
 		none = new Nation(0, Color.GRAY, 0);
 		none.numberOfPixels = 50000;
 		none.troops = none.numberOfPixels * 2;
@@ -168,6 +169,7 @@ public class WorldManager implements ActionListener {
 
 		if (e.getSource() == GamePanel.updateTroops) {
 			player.updateTroops();
+			player.troops = (int) (player.troops * 1.4);
 			for (int i = 0; i < bots.size(); i++) {
 				bots.get(i).updateTroops();
 			}
@@ -178,10 +180,30 @@ public class WorldManager implements ActionListener {
 				bots.get(i).contAttack();
 			}
 		}else if(e.getSource() == GamePanel.endTimer) {
-			int time = 300;
-			if(time < 300) {
+			int time = 0;
+			if(time < 150) {
 				time++;
+				for(int i = 0; i < bots.size(); i++) {
+					if(bots.get(i).numberOfPixels == 50000) {
+						GamePanel.currentState = GamePanel.END;
+						JOptionPane.showMessageDialog(null, "you lost");
+					}if(player.numberOfPixels == 50000) {
+						JOptionPane.showMessageDialog(null, "you won");
+						GamePanel.currentState = GamePanel.END;
+						
+					}
+				}
 			}else {
+				Nation mostLand = bots.get(3);
+				for(int i = 0; i < bots.size(); i++) {
+					if(bots.get(i).numberOfPixels > mostLand.numberOfPixels) {
+						mostLand = bots.get(i);
+					}if(player.numberOfPixels >= mostLand.numberOfPixels) {
+						JOptionPane.showMessageDialog(null, "You won!");
+						
+					}
+				}
+				
 				GamePanel.currentState = GamePanel.END;
 				
 			}

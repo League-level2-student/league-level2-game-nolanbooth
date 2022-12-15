@@ -97,7 +97,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 		updateTroops.start();
 		attackTimer = new Timer(250, manager);
 		attackTimer.start();
-		endTimer = new Timer(1000, manager);
+		endTimer = new Timer(2000, manager);
 		endTimer.start();
 	}
 
@@ -152,7 +152,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 		 */
 		if (cars.getKeyCode() == KeyEvent.VK_I) {
 			JOptionPane.showMessageDialog(null,
-					"Press SPACE to expand into the unclaimed land. To attack nations, click on their territory");
+					"Click the unclaimed land to expand. To attack nations, click on their territory. Your troop count is shown in"
+					+ "the top bar. Enemy troops are shown in the window to the left. ");
 		}
 	}
 
